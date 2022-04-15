@@ -47,7 +47,7 @@ function App() {
             onChange={handleChange}
           />
         </div>
-        {/* <div className="mb-3">
+        <div className="mb-3">
           <label htmlFor="password" className="form-label">
             Password
           </label>
@@ -59,8 +59,8 @@ function App() {
             value={signupInput.password}
             onChange={handleChange}
           />
-        </div> */}
-        {/* <div className="mb-3">
+        </div>
+        <div className="mb-3">
           <label htmlFor="confirm-password" className="form-label">
             Confirm Password
           </label>
@@ -72,7 +72,7 @@ function App() {
             value={signupInput.confirmPassword}
             onChange={handleChange}
           />
-        </div> */}
+        </div>
         {/* {error && <p className="text-danger">{error}</p>} */}
         {/* <button type="submit" className="btn btn-primary" onClick={handleClick}>
           Submit
