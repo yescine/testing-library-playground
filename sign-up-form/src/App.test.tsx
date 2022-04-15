@@ -3,28 +3,37 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 
-test("should input be empty", () => {
+beforeEach(() => {
   render(<App />);
-  const emailField = screen.getByRole("textbox");
-  const passwordField = screen.getByLabelText("Password");
-  const passwordConfirmField = screen.getByLabelText(/confirm password/i);
+});
 
-  expect(emailField.value).toBe("");
-  expect(passwordField.value).toBe("");
-  expect(passwordConfirmField.value).toBe("");
+function typeForm({ email, password, confirmPassword }: { email?: string; password?: string; confirmPassword?: string }) {
+  const emailField = screen.getByRole("textbox", { name: /email/i });
+  const passwordField = screen.getByLabelText("Password");
+  const passwordConfirmField = screen.getByLabelText(/confirm Password/i);
+
+  if (email) userEvent.type(emailField, email);
+  if (password) userEvent.type(passwordField, password);
+  if (confirmPassword) userEvent.type(passwordConfirmField, confirmPassword);
+
+  return { emailField, passwordField, passwordConfirmField };
+}
+
+function submitForm() {
+  const submitBtn = screen.getByRole("button", { name: /submit/i });
+  userEvent.click(submitBtn);
+}
+
+test("should input be empty", () => {
+  expect(screen.getByRole("textbox", { name: /email/i }).value).toBe("");
+  expect(screen.getByLabelText("Password").value).toBe("");
+  expect(screen.getByLabelText(/confirm password/i).value).toBe("");
 });
 
 test("should type login form", () => {
   const email = "slena@gmail.com";
   const password = "pass!";
-  render(<App />);
-  const emailField = screen.getByRole("textbox", { name: /email/i });
-  const passwordField = screen.getByLabelText("Password");
-  const passwordConfirmField = screen.getByLabelText(/confirm password/i);
-
-  userEvent.type(emailField, email);
-  userEvent.type(passwordField, password);
-  userEvent.type(passwordConfirmField, password);
+  const { emailField, passwordField, passwordConfirmField } = typeForm({ email, password, confirmPassword: password });
 
   expect(emailField.value).toBe(email);
   expect(passwordField.value).toBe(password);
@@ -33,13 +42,16 @@ test("should type login form", () => {
 
 test("should show error text", () => {
   const email = "slenagmail.com";
-  render(<App />);
-  const emailField = screen.getByRole("textbox", { name: /email/i });
-  userEvent.type(emailField, email);
+  typeForm({ email });
+  submitForm();
 
-  const submitBtn = screen.getByRole("button", { name: /submit/i });
-  userEvent.click(submitBtn);
+  expect(screen.queryByText(/the email you input is invalid/i)).toBeInTheDocument();
+});
 
-  const errorMsg = screen.queryByText(/the email you input is invalid/i)
-  expect(errorMsg).toBeInTheDocument()
+test("should not show error text", () => {
+  const email = "slena@gmail.com";
+  typeForm({ email });
+  submitForm();
+
+  expect(screen.queryByText(/the email you input is invalid/i)).not.toBeInTheDocument();
 });
