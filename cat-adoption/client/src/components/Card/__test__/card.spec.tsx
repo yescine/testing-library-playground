@@ -1,7 +1,7 @@
 import { screen, render } from "@testing-library/react";
 import userEvents from "@testing-library/user-event";
 
-import Card, { Props as CardProps } from "../Card";
+import Card, { Props as CardProps } from "..";
 
 const cardProp: CardProps = {
   email: "email@email.com",

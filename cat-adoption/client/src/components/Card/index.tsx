@@ -20,7 +20,7 @@ const Card = (props: Props) => {
   };
 
   return (
-    <div className="card">
+    <article className="card">
       <div className="card-header">
         <img src={props.image.url} alt={props.image.alt} className="card-img" />
       </div>
@@ -36,7 +36,7 @@ const Card = (props: Props) => {
         <p>{phone}</p>
         <p>{email}</p>
       </div>
-    </div>
+    </article>
   );
 };
 
