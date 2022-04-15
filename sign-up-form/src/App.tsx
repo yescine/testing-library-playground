@@ -73,10 +73,10 @@ function App() {
             onChange={handleChange}
           />
         </div>
-        {/* {error && <p className="text-danger">{error}</p>} */}
-        {/* <button type="submit" className="btn btn-primary" onClick={handleClick}>
+        {error && <p className="text-danger">{error}</p>}
+        <button type="submit" className="btn btn-primary" onClick={handleClick}>
           Submit
-        </button> */}
+        </button>
       </form>
     </div>
   );

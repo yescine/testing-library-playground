@@ -30,3 +30,16 @@ test("should type login form", () => {
   expect(passwordField.value).toBe(password);
   expect(passwordConfirmField.value).toBe(password);
 });
+
+test("should show error text", () => {
+  const email = "slenagmail.com";
+  render(<App />);
+  const emailField = screen.getByRole("textbox", { name: /email/i });
+  userEvent.type(emailField, email);
+
+  const submitBtn = screen.getByRole("button", { name: /submit/i });
+  userEvent.click(submitBtn);
+
+  const errorMsg = screen.queryByText(/the email you input is invalid/i)
+  expect(errorMsg).toBeInTheDocument()
+});
